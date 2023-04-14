@@ -1289,23 +1289,23 @@ Constant LIBRARY_GRAMMAR;                              ! for dependency checking
 
 #ifndef DEFORM___PARSER;
     Default DEFORM___DEP_ERROR 0;
-    Message error "[deform] Parser.h not incuded properly";
+    Message error "[deform] Parser.h not included properly";
 #endif;
 #ifndef DEFORM___PARSERM;
     Default DEFORM___DEP_ERROR 0;
-    Message error "[deform] parserm.h not incuded properly";
+    Message error "[deform] parserm.h not included properly";
 #endif;
 #ifndef DEFORM___GERMAN;
     Default DEFORM___DEP_ERROR 0;
-    Message error "[deform] German.h not incuded properly";
+    Message error "[deform] German.h not included properly";
 #endif;
 #ifndef DEFORM___VERBLIB;
     Default DEFORM___DEP_ERROR 0;
-    Message error "[deform] VerbLib.h not incuded properly";
+    Message error "[deform] VerbLib.h not included properly";
 #endif;
 #ifndef DEFORM___VERBLIBM;
     Default DEFORM___DEP_ERROR 0;
-    Message error "[deform] verblibm.h not incuded properly";
+    Message error "[deform] verblibm.h not included properly";
 #endif;
 #ifdef DEFORM___DEP_ERROR;
     Message fatalerror
