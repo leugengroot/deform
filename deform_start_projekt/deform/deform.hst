@@ -1,0 +1,487 @@
+----------------------------------------------------------------
+31.01.2010
+    Bei der Nachfrage zur Dismabiguisierung ("Was meisnt du,
+    den Gummiball oder den Medizinball?") wird nun "Wen meinst
+    du" ausgegeben, wenn alle möglichen Objekte Personen sind,
+    d.h. das Attribut animate besitzen. Bislang wurde hier 
+    einfach geschaut, ob [creature] geparst wird, was zu Sätzen
+    wie "Was meinst du, Peter, Hans oder Ulrich?" geführt hat.
+    Wenn eines der Objekte aber keine Person ist, wird weiterhin
+    "Was" ausgegeben.
+    
+    (Bei unvollständigen Sätzen, etwa nur "nimm" ohne Objekt,
+    wird weiterhin geschaut, ob [creature] geparst wird. Das ist
+    in Ordnung, da sich die Nachfrage ohne den Kontext möglicher
+    Objekte nach den zu erwartenden Objekten richtet: "Was willst
+    du untersuchen?", aber "Wen willst du fragen?")
+
+----------------------------------------------------------------
+13.01.2010
+    Einige Änderungen, die im Zusammenhang mit der I7isierung
+    von deform aufgefallen sind, sind behoben, hauptsächlich
+    Kosmetik in der Ausgabe. Vielen Dank and Christian Blümke
+    und (unbekannterweise) an Mischa Magyar.
+    
+    Das Ausdrucken der Objekte bei UPTO_PE im expliziten
+    Fehlermodus wird nun unterdrückt.
+    
+    Die Ausgabe der vom Parser bestimmten Objekte in Klammern,
+    zum Beispiel "(die blaue Mauritius)" setzt nun nicht mehr
+    den Changing Gender zurück.
+    
+----------------------------------------------------------------
+31.03.2009
+    Die explizite Fehlermeldung ist weiter verfeinert worden:
+    Nun werden auch nicht verstandene Sätze und Verben mit
+    dieser Fehlermeldung beschieden. Zusammengesetzte Infinitive
+    werden ebenfalls erkannt, vielen Dank an Chriatian Blümke, 
+    der mich darauf aufmerksam gemacht und sogar Korrekturen 
+    vorgeschlagen hat. 
+    
+    Das erste nicht erkannte Wort wird jetzt auch für mit 
+    parse_name oder ParseNoun() analysierte Objekte richtig 
+    bestimmt.
+    
+    Außerdem wurden je ein Bug in LTI_Delete für Gulx und bei
+    zusammengestzten Infinitiven bei deaktiviertem Debug-Modus
+    behoben.
+
+----------------------------------------------------------------
+30.03.2009
+    Die expliziten Fehlermeldungen machten noch einige Probleme.
+    Nun wird auch in Refers max_wn gesetzt, um das letzte Wort, 
+    das als Vokabular eines Objekts untersucht wird, zu 
+    berücksichtigen.
+    
+    Außerdem wurde die Verschiebung der Originalwörter bei
+    Infinitiven endlich mal nachgezogen: "den Hut nehmen" 
+    (1, 2, 3) wird nun nach dem Umstellen zu "nehmen den Hut" 
+    (3, 2, 1). Das Gleiche gilt für zusammengesetzte Verben,
+    wo "das Bild anschauen" (1, 2, 3) zu "schauen das Bild an" 
+    (3, 1, 2, 3) wird. 
+
+----------------------------------------------------------------
+29.03.2009
+    Die Grammatik fürs Füllen ist verändert worden. Füllen kann 
+    nun zwei Objekte haben: Fülle Kanne mit Wasser. Das zu 
+    füllende Objekt ist noun, das Füllgut second.
+    
+    Explizite Fehlermeldungen, die nicht oder falsch verstandene 
+    Wörter nennen, können mit EXPLICIT_ERROR_MESSAGES aktiviert
+    werden. Sie ersetzen dann "So etwas siehst du hier nicht" 
+    und "Ich habe nur Folgendes verstanden: ..."
+    
+    Eine experimentelle erweiterung des parsers kann mit
+    EXTENDED_PARSER aktiviert werden. Der Parser versteht dann
+    durch Präpositionen verkettete Objekte wie "Loch im Strumpf"
+    oder "Brief aus Kanada". Die zweite Angabe kann hier auch 
+    ein anderes Objekt sein.
+
+----------------------------------------------------------------
+23.01.2009
+
+    Die Endung @00, die bislang nur Substantive im Plural
+    bedacht hatte (den Regale-n), ist jetzt auch für männliche 
+    Substantive, die auf -e enden, verwendbar: des Bote-n, des
+    Löwe-n, worauf ich durch die Endung [~n] in I7 aufmerksam 
+    geworden bin. Außerdem ist ein Fehler bei der Deklination
+    von Objekten ohne unbestimmtem Artikel (no_article) und 
+    Adjektiven behoben worden: Statt "(mit) klaren Wasser" heißt
+    es jetzt korrekt: "(mit) klarem Wasser".
+
+----------------------------------------------------------------
+16.01.2009
+
+    Kurze Überarbeitung: Die unübliche Abkürzung 'v//' für 
+    'verlass' ist herausgeflogen und ein Verb-Suchmuster 
+    bereinigt worden, weil des 'dies' als Descriptor nicht
+    mehr zugelassen hat.
+
+----------------------------------------------------------------
+29.01.2008
+
+    Kleinere kosmetische Änderungen in den Standardtexten.
+    Außerdem wurde ein Bug korrigiert, der den Wortmarker nach
+    "ich will|möchte" immer eins zu weit nach vorn gerückt hat, 
+    und die Infinitivkonstruktion wird nun auch erkannt, wenn
+    andere Personen angesprochen werden. (Sätze wie "Apfel,
+    Birne und Apfelsine nehmen" werden aber nach wie vor falsch 
+    erkannt (nämlich als Anweisung an den Apfel), das ist eine 
+    Einschränkung des nachgestellten Infinitivs. Der Satz "iss 
+    Apfel, Birne" wird aber natürlich richtig interpretiert. 
+    
+    Vielen Dank an Christian Blümke fürs Melden und Korrigieren.
+    
+----------------------------------------------------------------
+11.07.2007
+
+    Die Changing-Gender-Geschichte habe ich noch einmal
+    überarbeitet. Es funktioniert bei der Eingabe mit Pronomen
+    und bei der Ausgabe, aber nicht beides. (Die Pronomen werden
+    zwar gesetzt, aber beim Parsen von Pronomen ist der Changing
+    Gender wieder vergessen.)
+
+----------------------------------------------------------------
+17.10.2005
+
+    Einige Rechtschreibfehler ausgebessert.
+
+    Der Changing Gender kommt nun ohne die Definition einer
+    Property changig_gender aus. Es genügt, dem jeweiligen Wort
+    das passende Attribut oder eines der vordefinierten "un-
+    typeable words" nachzustellen.
+
+    Die Reflexivpronomen werden nun mit einer Routine geparst,
+    was einige Flexibilität bezüglich der verwendeten Person
+    (dich, sich, euch, mich) erlaubt.
+
+----------------------------------------------------------------
+29.09.2005
+
+    Der Bug, der beim Eingeben von "ich will" ohne nachfolgenden
+    Infinitiv verursacht wurde, ist behoben, es erscheint jetzt
+    einfach L__M(##Miscellany, 10) ("Wie bitte?").
+
+    Kleinere Fehler in Ein- und Ausgabe behoben.
+
+----------------------------------------------------------------
+28.09.2005
+
+    Die Aktionen ##Undress und ##Dress sind zu den bekannten
+    hinzugefügt worden. Sie machen in ihrer jetzigen Form nichts
+    Besonderes, es erschien aber sinnvoll, sie einzuführen, da
+    die Grammatik für 'zieh xxx aus/an' bereits da war und eine
+    etwas verwirrende Absage ausgegeben hat, wenn xxx ein NPC
+    oder der Spieler war.
+
+    Die Aktion ##Lift, die in der alten Lib definiert war, ist
+    auch wieder eingeführt, da 'hebe hoch' auch eine logische
+    Erweiterung ist, wenn es beiets 'hebe auf' gibt. (Im Gegen-
+    satz zum Englischen, wo 'lift' je ein komplett neues Verb
+    wäre.) Lift druckt Absagen, wenn das Objekt static, scenery
+    oder animate ist, ansonsten lenkt es auf ##LookUnder um.
+
+    Die neuen Verben haben auch Library Messages, die ersetzt
+    werden können.
+
+    Diese Vorgehensweise widerspricht zwar vielleicht der Idee,
+    sich möglichst nahe an die englische 6/11 anzulehnen, ist
+    aber im Sinne klarerer Antworten des Parsers gerechtfertigt.
+    Und nein, ich werde nicht ##Read einführen, obwohl ich es
+    sinnvoll finde. Dieser Design-Fehler bleibt aus Traditions-
+    gründen erhalten.
+
+----------------------------------------------------------------
+05.09.2005
+
+    Zwei Einträge in LanguageVerb korrigiert. Bei Richtungsan-
+    gaben ohne Verb ("w") wird nun "nach Westen gehen" gesagt.
+
+    Ein Fehler in CheckInfinitiveClause, der bei Sätzen, die mit
+    einem Punkt beginnen (oder mit zwei aufeinanderfolgenden
+    Punkten endeen) einen Programming Error erzeugt, ist behoben
+    worden.
+
+    Einige Änderungen in der Grammatik, besonders bei 'steige'
+    und 'setze'.
+
+    Die Routine PrintToBuffer(), die laut Release Notes u.a.
+    eine Routine mit bis zu zwei Argumenten auf ein Hilfsfeld
+    schreiben kann, akzeptiert unter Glulx nur ein Argument.
+    Geändert und weitergegeben.
+
+----------------------------------------------------------------
+25.08.2005
+
+    Bug beim Inventar und WriteListFromcase behoben. (Es wurde
+    nicht korrekt eingerückt.)
+
+    'Steige heraus' ist nun ##Exit, nicht mehr ##GetOff.
+
+    Die Tokens für ##Disrobe sind nun [worn] (wenn ein gleicher
+    Satz mit [noun] folgt) und [noun], nicht mehr [held]. Das
+    Token [held] scheint nicht sinnvoll, da es nicht bloß über-
+    prüft, ob das Objekt beim Spieler ist, sondern versucht, das
+    auszuziehende Kleidungsstück aufzuheben. [worn] ohne nach-
+    folgendes Satzmuster "fällt durch", das heißt es gibt einen
+    CANTSEE_PE, auch wenn das Objekt sichtbar ist.
+
+----------------------------------------------------------------
+21.08.2005
+
+    Um etwas konformer mit der Original-Lib zu sein, habe ich
+    output_case in short_name_case (das es bereits gab, ich aber
+    übersehen hatte) umbenannt. Wenn nun jemand eine eigene
+    Liste ausgeben möchte, kann er WriteListFromCase(o, style,
+    case) benutzen, dann wird short_name_case automatisch
+    gesetzt.
+
+    Einige Ausgabefehler gefixt: Ein "ist" bei "Die Lampe ist
+    im Moment an/aus" und eine Leerzeile bei 'post' entfernt.
+
+----------------------------------------------------------------
+12.08.2005
+
+    Okay, etwas mit verb_word gefixt, was wohl durch das vor-
+    schnelle Einbauen der Infinitiv-Konstruktion hineingeraten
+    war.
+
+    Die Property adj funktioniert jetzt auch wieder, wenn
+    mehrere Adjektive angegeben sind. (Dummerweise ist in Inform
+    (~~flag || x==0) nicht dasselbe wie (flag==0 || x==0).)
+
+    Ein Bug mit den CompundHeads, bei denen nur sechzehn
+    verwendet werden konnten, ist gefixt. (Das Feld orig_parse
+    wurde falsch überschrieben.)
+
+    held_damit und noun_damit sind nun durch 'mit ihm/r' ersetzt
+    worden, was viele Zeilen in der GermanG einspart. Das heißt,
+    wenn man 'mit' [noun/held/***] definiert, wird damit immer
+    verstanden. Trotzdem lasse ich die anderen Tokens, wie zum
+    Beispiel noun_daraus und prep_daraus erst einmal. 'heraus'
+    kann ja verschiedene Bedeutungen haben, wie in 'nimm alles
+    aus der Kiste heraus' und 'u Kiste. Nimm alles heraus.' Ganz
+    glücklich bin ich zwar noch nicht damit, aber solange es
+    funktioniert und mir nichts Besseres einfällt lasse ich's.
+
+----------------------------------------------------------------
+31.07.2005
+
+    Der Fehler ANIMA_PE wurde von elf auf zwei heruntergestuft,
+    da er genenüber aussagekräftigeren Fehlern dominant ist und
+    so den eigentlichen Fehler verschleiert. Nur STUCK_PE ist
+    jetzt noch niedriger eingestuft.
+
+    Reparieren von PrintCommand, so dass Dativ und Akkusativ
+    immer richtig ausgegeben werden. Ob eine Präposition zum
+    Verb gehört oder nicht wird auch besser erkannt.
+
+    Es ist nun (weitestgehend) möglich, die Infinitivform
+    anzugeben. Eingaben wie "alles aufheben" werden umgewandelt
+    in "heb alles auf". (Hierbei werden allerdings die Original-
+    positionen der Wörter nicht nachgezogen.)
+
+    LTI_Delete(pos) analog zu LTI_Insert eingefürt. Rückgabewert
+    ist das entfernte Zeichen.
+
+    Die Tokens zu den Adverbialpronomen wurden erweitert, so
+    dass es neben noun_damit usw. auch held_damit gibt. So
+    verhalten sich diese Tokens genau wie sie sollen, und es
+    ist nicht möglich, die [held]-Bedingung zu umgehen. (Die
+    Bedingung wird nur in den Tokens überprüft.)
+
+    In print_article wird ein negatives indef (was bedeutet,
+    dass kein Artikel verwendet wird) jetzt korrekt behandelt.
+
+    Der Lookahead bei [multiinside] und [multiexcept] ist
+    aufgebohrt worden, so dass er nun nicht strikt an das Schema
+    [multi...] 'Präposition(en)' [noun] gebunden ist. Anstatt
+    diese Bedingung strikt vorzugeben, kann man sie jetzt in den
+    Lookahead-Routinen in GermanG anpassen. (Trotzdem Obacht: Es
+    funktioniert trotzdem nur, wenn der Parser weiß, an welcher
+    Stelle er das Token übersprungen hat. Eine fixe Präposition
+    sollte also schon dort stehen. Im Fall von deform wurden
+    jedoch auch die Tokens noun_darin usw. zugelassen, die aber
+    auch nur eine Anzahl fest vorgegebener Wörter parsen.)
+
+    Die Consult-Grammatik ist überarbeitet worden. Es gibt
+    allerdings immer noch ein paar kleinere Probleme. Ich denke
+    aber, ich habe es soweit, dass die gängigsten Eingaben
+    verstanden werden. (Damit 'darin' dort verstanden wird, habe
+    ich ein Synonym eingeführt. Dummerweise ist ein verstecktes
+    Pronomen jetzt auf ein typeable word abgebildet, wenn auch
+    auf ein reichlich komisches.)
+
+    Man kann nun auch sagen 'ich nehme alles' oder 'ich will
+    aufstehen'. (Das klappt irgendwie aber nicht immer. Dies ist
+    ein experimentelles Feature.)
+
+    Wenn der Spieler der actor ist, werden auch 'du', 'dich' und
+    'dir' als Vokabular für den Spieler verstanden.
+
+----------------------------------------------------------------
+29.07.2005
+
+    Die Routine Is_undo_word berücksichtigt jetzt auch die
+    Varianten mit Umlaut, da zum Zeitpunkt der Analyse für
+    manche Meta-Kommandos noch nicht informisiert wurde.
+
+    LanguageToInformese ruft nun zwei Einhänger, PreInformese
+    und PostInformese, auf, die dem Autor am Anfang und am Ende
+    der Informisierung die Gelegenheit geben, den zu parsenden
+    Text zu ändern.
+
+    Da ich das Konzept von NO_PUNCTUATION nicht ganz verstanden
+    hatte, war diese Konstante aus der alten Lib nicht implemen-
+    tiert. Sie dient dazu, Ausrufe- und Fragezeichen aus dem
+    Text herauszufiltern. In deform gibt es nun die drei
+    Konstanten IGNORE_PUNCTUATION (Zeichen löschen), SEPARATE_
+    PUNCTUATION (Zeichen isolieren und als eigenes Wort betrach-
+    ten) und REPLACE_PUNCTUATION (Alle Zeichen durch Punkte
+    ersetzen). Die Routine Is_Punctuation sagt, was Zeichen sind
+    und was nicht. (Dieses Feature ist experimentell.)
+
+    Analog zu CompoundHeads gibt es jetzt CompoundTails, das
+    Wörter von hinten beschneidet. Die Standardendungen /[esn]$/
+    und /e[mnrs]$/ werden berücksichtigt.
+
+    Ein Wert von eins als zweiter Eintrag in einem Compound-Feld
+    unterdrückt das Schreiben eines Bindestrichs. Wenn an der
+    Stelle bereits ein Bindestrich ist, wird ebenfalls keiner
+    geschrieben. 'g-saite' wird also zu 'g- saite'.
+
+    Die Konstante COMPATIBILITY_MODE definiert einige Symbole
+    aus der offiziellen Lib, so dass man seine Spiele leichter
+    portieren kann. *Ganz* kompatibel ist deform aber nicht zur
+    offiziellen Lib, siehe Doku. (Frank Borgers Eden inklusive
+    GInfo-Pakt lässt sich so aber kompilieren. Und da soll noch
+    einer sagen, deform finge bei Adam und Eva an.)
+
+    Die Variable dative_mode gibt während des Parsens an, ob
+    ein Dativ untersucht werden soll oder nicht. Die Variable
+    article_word wird auf den einen Artikel gesetzt, wenn er
+    als Descriptor geparst wurde. Das kann man in parse_name
+    verwenden, um zum Beispiel den/das Schild zu unterscheiden.
+
+    Ein Bug, der auch in der englischen Lib ist, ist gefixt:
+    Der Wortmarker wn wurde nach Aufruf von parse_name nicht
+    zurückgesetzt, wenn -1 zurückgegeben wurde. (Was aber wohl
+    im Großen und Ganzen nicht so wichtig ist.)
+
+----------------------------------------------------------------
+26.07.2005
+
+    "schlag/schau nach in x" ohne topic wird jetzt einfach als
+    Examine interpretiert, um das Implizieren des Themas mit
+    (nach) zu verhindern.
+
+    Ein neues Toklen [dative] ist eingeführt worden. Es macht
+    allerdings noch nichts, vielleicht kann man es für die
+    Ausgabe in PrintCommand verwenden. Es steht vor einem
+    Ergebnistoken um dies als Dativ zu markieren, also "'mit'
+    dative noun" oder "'mit' dative held".
+
+    Die xdamit/xhinein/hinein-Tokens sind umbenannt worden in
+    prep_* und noun_*, so dass man sieht, ob es nur überliest
+    oder auch ein Ergebnis liefert.
+
+    Die Routine GenderNotice(obj, gender) ist jetzt nicht nur
+    dokumentiert, sondern auch implementiert.
+
+----------------------------------------------------------------
+25.07.2005
+
+    Wieder ein paar Rechtschreibfehler in den Lib-Texten
+    korrigiert. ("Folgendes" groß, ein paar verirrte Lerrzeichen
+    und ##Miscellany, 30.)
+
+    Bei der Nachfrage "Was meinst du?" werden jetzt auch Verben
+    mit Umlauten als Verben und damit als neuer Satz verstanden.
+    ALs dritter Parameter kann an LTI_Insert der Puffer über-
+    geben werden. Wird nichts übergeben, wird der Hauptpuffer
+    buffer genommen.
+
+    Die Klammern um den Genitiv in DekliniereSub sind nun weg.
+
+----------------------------------------------------------------
+24.07.2005
+
+    Die Listen können nun das APPEND_BIT haben, mit dem man
+    Unterlisten vormerken und anschließend mit WriteSubLists()
+    ausgeben kann.
+
+    "nimm alles vom Tisch" funktioniert jetzt - nach "alles"
+    werden nun keine of-Words mehr ignoriert. Sonst aber schon,
+    so dass "nimm drei von den Bällen" so funktioniert wie "nimm
+    drei Bälle".
+
+    Englische Kürzel 'u' für hoch, 'd' für runter und 'y' für
+    yes sowie einige Erweiterungen der Grammatik eingefügt.
+
+    Bug in der Liste in XTreeSub gefixt - hier wurde der Fall
+    nicht nachgezogen und stattdessen die Tiefe als Fall, in
+    dem Fall Genitiv, interpretiert.
+
+    Die Nachfrage versteht nun Verben als Verben. In der Routine
+    LanguageIsVerb, die es offenbar sei 6/11 gibt, werden nun
+    '-e' vom Verb abgeschnitten. (Dummerweise benutzt die
+    Routine DictionaryLookup parse2 als temporären Puffer, so
+    muss alles von Hand geparst werden.
+
+    LanguageVerbMayBeName wird nun mit einer Schleife über die
+    möglichen Objekte geschaut, ob das Wort eine Antwortmöglich-
+    keit sein könnte. Wenn ja, soll es als Disambiguisierung in-
+    terpretiert werden, wenn nicht als neues Verb. Zum Beispiel:
+
+        > nimm Flasche
+        Was meinst du, die leere Flasche oder die volle Flasche
+
+        > leere Flasche
+        In Ordnung.
+
+        > nimm Beutel
+        Was meinst du, den Jutebeutel oder den Waschbeutel?
+
+        > leere Flasche
+        Du leerst die Flasche in einem Zug.
+
+    Der Changing-Gender-Algorithmus ist jetzt implementiert,
+    allerdings wahrscheinlioch in einer weniger umfassenden Form
+    als in der offizielen Lib. Statt den Attributen können in
+    'name' die untypable words 'm.', 'f.', 'n.' und 'p.' ange-
+    geben werden, damit der Compiler Ruhe gubt.
+
+    Um zu verhindern, dass Dinge ins Sack-Objekt gelegt werden,
+    die nicht hineinpassen, kann man die in 6/11 neue Property
+    'before_implicit' benutzen. (In der Original-Lib wird dies
+    im Moment nur fürs implizite Nehmen verwendet.)
+
+----------------------------------------------------------------
+16.07.2005
+
+    WriteListFrom kann nun ein drittes Argument haben, den Fall
+    für die Ausgabe.
+
+    Das Feld CompoundHeads eingeführt, das Anfänge von zusammen-
+    gesetzten Wörtern abschneidet, um so die Endungen der Wörter
+    - Streichholz oder Streichhölzer? - besser interpretieren zu
+    können.
+
+    Mit der Funktion MatchWord kann man nun lange Wörter parsen.
+    Dies kann man gut in parse_name verwenden.
+
+    Kleinere Korrekturen bei den Texten, vor allem bei den
+    Listeneinträgen und bei "Was meinst du...?"
+
+    Es gibt ein Debug-Verb XLibCheck, das man mit 'libcheck'
+    aufrufen kann. Es testet, ob alle Objekte, die angesprochen
+    werden können, das heißt, die eine name- oder parse_name-
+    Property besitzen, einen Genus haben, ob Vokabeln Umlaute
+    enthalten und so.
+
+----------------------------------------------------------------
+Noch zu erledigen:
+
+    Originalpositionen nach dem Umbau von Infinitivsätzen
+    wiederherstellen.
+
+    Möglichkeit, eigene Ersetzungen bei den Compounds anzugeben,
+    so dass zum Beispiel 'schluessel' nicht zum lexikalisch
+    wegen der Beschränkung auf neun Zeichen gleichwertigen
+    'schluessel-' abgetrennt wird, sondern der Autor die
+    Möglichkeit hat, hier als zweite Angabe den neuen Kopf bzw.
+    Schwanz anzugeben, etwa 'schl~'.
+
+----------------------------------------------------------------
+Bekannte Fehler:
+
+    Nimm alles schreibt manchmal eine Annahme in Klammern obwohl
+    das sinnlos ist. Dies passiert z.B. bei "nimm alles", wenn
+    man im Spielzeugladen noch auf dem Stuhl sitzt. (Allerdings
+    auch in der englischen Lib.)
+
+    Andererseits wird der Name des Objekts nicht vorangestellt,
+    wenn man mit 'alles' nur ein Objekt aus einem Behälter
+    herausnimmt. (In der Original-Lib aber auch.)
+
+----------------------------------------------------------------

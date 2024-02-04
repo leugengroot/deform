@@ -1,0 +1,45 @@
+!%-SD
+!% +include_path=deform
+
+!=============================================================================
+!Switches d;
+
+Constant Story "DEFORM BEISPIEL STORY"; 
+Constant Headline
+            "^Ein Abenteuer in Inform6 und deform
+             ^Story und Cöding von Mäx Müßtermann.
+              ";
+
+
+Include "Parser";
+Include "VerbLib";
+
+
+Object startRaum  "Startraum"
+    with description "Du bist im Startraum.", 
+    has light;
+
+Object roteGruetze startRaum 
+    with    name 'rote' 'gruetze',
+            short_name "rot@00 Grütze",
+            description "Ein Becher rote Grütze. Lecker ...",
+    has     female;	
+
+Object drache startRaum 
+    with    name 'tot' 'drache',
+            short_name "leblos@00 Körper des Drachen",
+            description "Das war mal ein lebender Drache, aber jetzt ist er definitiv tot.",
+    has     male;	
+  
+
+!============================================================================
+! Entry point routine
+[   Initialise; 
+    location = startRaum;
+];
+
+!============================================================================
+! Standard and extended grammar
+
+ Include "GermanG";	
+
